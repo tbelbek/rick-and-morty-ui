@@ -1,0 +1,23 @@
+﻿@{
+    ViewData["Title"] = "Home Page";
+    @model RickAndMortyUI.Model.MainList
+}
+<nav>
+    <ul class="pagination">
+        <li class="page-item">@Html.ActionLink("Previous", "Index", new { page = Model.Info.PreviousPageNumber }, new { @class = "page-link" })</li>
+
+        @{
+            var startInt = Convert.ToInt32(Model.Info.CurrentPageNumber) - 5 < 0 ? 1 : Convert.ToInt32(Model.Info.CurrentPageNumber) - 5;
+            var endInt = Convert.ToInt32(Model.Info.CurrentPageNumber) + 5 > Model.Info.Pages ? Model.Info.Pages : Convert.ToInt32(Model.Info.CurrentPageNumber) + 5;
+        }
+
+        @for (int i = startInt; i <= endInt; i++)
+        {
+            string boldClass = i.ToString() == Model.Info.CurrentPageNumber ? "bold-font" : string.Empty;
+            <li class="page-item @boldClass">@Html.ActionLink(i.ToString(), "Index", new { page = i }, new { @class = "page-link" })</li>
+        }
+
+        <li class="page-item">@Html.ActionLink("Next", "Index", new { page = Model.Info.NextPageNumber }, new { @class = "page-link" })</li>
+    </ul>
+</nav>
+
