@@ -1,0 +1,63 @@
+﻿@using RickAndMortyUI.Controllers
+@using RickAndMortyUI.Model
+@{
+    ViewData["Title"] = "Home Page";
+    @model RickAndMortyUI.Model.MainList
+}
+
+
+
+<h1 class="h1 text-center" id="pageHeaderTitle">Rick & Morty Characters List</h1>
+@foreach (Character item in Model.Results)
+{
+<article class="postcard dark blue">
+    <a class="postcard__img_link" href="#">
+        <img class="postcard__img" src="@item.Image" alt="@item.Name" />
+    </a>
+    <div class="postcard__text">
+        <h1 class="postcard__title blue"><a href="#">&nbsp;@item.Name</a></h1>
+        <div class="postcard__subtitle small">
+            <span>&nbsp;&nbsp;&nbsp;@Html.DisplayNameFor(x => x.Results.FirstOrDefault().Gender): @item.Gender - @Html.DisplayNameFor(x => x.Results.FirstOrDefault().Species) : @item.Species - @item.Status</span>
+        </div>
+        <div class="postcard__bar"></div>
+        <div class="postcard__preview-txt"><ul><li><span class="bold-font">Location:</span> @item.LocationInfo.ToString()</li><li><span class="bold-font">Origin:</span> @item.OriginInfo.ToString()</li></ul></div>
+        <div class="episode-list">
+            @foreach (EpisodeInfo subItem in item.EpisodeInfos)
+            {
+            <span class="badge badge-secondary episode-font">@subItem.Name</span>
+            }
+        </div>
+
+        @*<ul class="postcard__tagbox" id="episode-list">
+                @foreach (EpisodeInfo subItem in item.EpisodeInfos)
+                    {
+                <li class="tag__item"><i class="fas fa-tag mr-2"></i>@subItem.Name</li>
+                    }
+            </ul>*@
+    </div>
+</article>
+}
+
+@Html.Partial("PaginationPartial",Model)
+
+
+<script>
+
+    new Cuttr('.episode-list', {
+        //options here
+        truncate: 'words',
+        length: 100,
+        ending: '',
+        readMore: true,
+        readMoreBtnPosition: 'inside',
+        readMoreBtnTag: 'span',
+        readMoreBtnAdditionalClasses: 'badge badge-light episode-font',
+        readMoreText: 'Read more',
+        readLessText: 'Read less'
+    });
+
+</script>
+
+
+
+
